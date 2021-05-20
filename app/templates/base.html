@@ -20,8 +20,27 @@
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a href="{% url 'home' %}" class="nav-link px-2 text-white">Home</a></li>
-        <li><a href="{% url 'create' %}" class="nav-link px-2 text-white">Add</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Import</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="Vocabulary" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Vocabulary
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="Vocabulary">
+            <li><a class="dropdown-item" href="#">Management</a></li>
+            <li><a class="dropdown-item" href="#">Add</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="Screen" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Screen
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="Screen">
+            <li><a class="dropdown-item" href="#">Management</a></li>
+            <li><a class="dropdown-item" href="#">Add</a></li>
+          </ul>
+        </li>
+
+<!--        <li><a href="{% url 'create' %}" class="nav-link px-2 text-white">Add</a></li>-->
+<!--          <li><a href="#" class="nav-link px-2 text-white">Import</a></li>-->
         <li><a href="#" class="nav-link px-2 text-white">Export</a></li>
       </ul>
 

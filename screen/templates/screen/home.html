@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<div class="container-fluids">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Screen Name</th>
+        <th scope="col">Screen Code</th>
+        <th scope="col">Project</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for screen in page_obj %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{screen.screen_code}}</td>
+        <td>{{screen.screen_name}}</td>
+        <td>
+          <a class="btn btn-warning me-2" href="{% url 'screen-detail' screen_id=screen.id %}">Edit</a>
+        </td>
+      </tr>
+    {%endfor%}
+    </tbody>
+  </table>
+</div>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item disabled">
+      <a class="page-link" href="vocabulary?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+    {% endif %}
+    <li class="page-item disabled"><a class="page-link" href="#">
+      {{ page_obj.number }}
+    </a></li>
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="vocabulary?page={{ page_obj.next_page_number }}">Next</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{%endblock%}

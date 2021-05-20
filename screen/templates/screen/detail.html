@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<div class="container text-center mt-5">
+  <div class="row">
+      <h3> {{screen.screen_name}} </h3>
+    </div>
+</div>
+
+<div class="container">
+      <form method="POST" action="{% url 'detail' vocab_id=vocab.id %}">
+          {% csrf_token %}
+      <div class="form-group">
+        <label for="keyInput">Key</label>
+        <input type="text" value="{{vocab.vocab_key}}" name="key" class="form-control" id="keyInput" placeholder="Key">
+      </div>
+      <div class="form-group">
+        <label for="engDefinition">English</label>
+        <textarea class="form-control" name="eng" id="engDefinition" rows="3">
+            {{vocab.english_definition}}
+        </textarea>
+      </div>
+      <div class="form-group">
+        <label for="vnDefinition">Vietnamese</label>
+        <textarea class="form-control" name="vn" id="vnDefinition" rows="3">
+            {{vocab.vn_definition}}
+        </textarea>
+      </div>
+      <div class="form-group">
+        <label for="koreaDefinition">Korean</label>
+        <textarea class="form-control" name="korea" id="koreaDefinition" rows="3">
+            {{vocab.korean_definition}}
+        </textarea>
+      </div>
+      <div class="form-group text-center mt-5">
+        <button class="btn btn-m btn-warning btn-block" type="submit">Save</button>
+      </div>
+    </form>
+
+
+</div>
+
+
+{%endblock%}
