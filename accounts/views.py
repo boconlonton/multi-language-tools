@@ -19,3 +19,13 @@ def login(request):
 
     else:
         return render(request, "accounts/login.html")
+
+
+def logout(request):
+    # TODO: Need to route to hompage
+    # and don't forget to logout.
+    if request.method == 'POST':
+        auth.logout(request)
+        return redirect('home')
+    else:
+        return render(request, "accounts/logout.html")
