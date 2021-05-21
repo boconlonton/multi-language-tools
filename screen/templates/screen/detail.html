@@ -8,32 +8,30 @@
 </div>
 
 <div class="container">
-      <form method="POST" action="{% url 'detail' vocab_id=vocab.id %}">
+      <form method="POST" action="{% url 'screen-detail' screen_id=screen.id %}">
           {% csrf_token %}
       <div class="form-group">
-        <label for="keyInput">Key</label>
-        <input type="text" value="{{vocab.vocab_key}}" name="key" class="form-control" id="keyInput" placeholder="Key">
+        <label for="scrProj"><b>Project</b></label>
+        <input type="text" value="{{screen.project}}" name="scrProj" class="form-control" id="scrProj" placeholder="Project" disabled>
       </div>
       <div class="form-group">
-        <label for="engDefinition">English</label>
-        <textarea class="form-control" name="eng" id="engDefinition" rows="3">
-            {{vocab.english_definition}}
-        </textarea>
+        <label for="scrCode"><b>Screen Code</b></label>
+        <input type="text" value="{{screen.screen_code}}" name="scrCode" class="form-control" id="scrCode" placeholder="Screen Code">
       </div>
       <div class="form-group">
-        <label for="vnDefinition">Vietnamese</label>
-        <textarea class="form-control" name="vn" id="vnDefinition" rows="3">
-            {{vocab.vn_definition}}
-        </textarea>
+        <label for="scrName"><b>Screen Name</b></label>
+        <textarea class="form-control" name="scrName" id="scrName" rows="3">{{screen.screen_name}}</textarea>
       </div>
       <div class="form-group">
-        <label for="koreaDefinition">Korean</label>
-        <textarea class="form-control" name="korea" id="koreaDefinition" rows="3">
-            {{vocab.korean_definition}}
-        </textarea>
+        <label for="scrDesc"><b>Description</b></label>
+        <textarea class="form-control" name="scrDesc" id="scrDesc" rows="3">{{screen.description}}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="scrURL"><b>URL</b></label>
+        <textarea class="form-control" name="scrURL" id="scrURL" rows="3">{{screen.url}}</textarea>
       </div>
       <div class="form-group text-center mt-5">
-        <button class="btn btn-m btn-warning btn-block" type="submit">Save</button>
+        <button class="btn btn-m btn-warning btn-block" type="submit">Edit</button>
       </div>
     </form>
 

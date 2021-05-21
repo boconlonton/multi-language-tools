@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-
 </head>
 <body class="d-flex flex-column h-100">
 
@@ -19,14 +18,14 @@
       </a>
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{% url 'home' %}" class="nav-link px-2 text-white">Home</a></li>
+        <li><a href="{% url 'vocab-home' %}" class="nav-link px-2 text-white">Home</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" id="Vocabulary" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Vocabulary
           </a>
           <ul class="dropdown-menu" aria-labelledby="Vocabulary">
-            <li><a class="dropdown-item" href="#">Management</a></li>
-            <li><a class="dropdown-item" href="#">Add</a></li>
+            <li><a class="dropdown-item" href="{% url 'vocab-home' %}">Management</a></li>
+            <li><a class="dropdown-item" href="{% url 'vocab-create' %}">Add</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
@@ -34,13 +33,11 @@
             Screen
           </a>
           <ul class="dropdown-menu" aria-labelledby="Screen">
-            <li><a class="dropdown-item" href="#">Management</a></li>
-            <li><a class="dropdown-item" href="#">Add</a></li>
+            <li><a class="dropdown-item" href="{% url 'screen-home' %}">Management</a></li>
+            <li><a class="dropdown-item" href="{% url 'screen-create' %}">Add</a></li>
           </ul>
         </li>
 
-<!--        <li><a href="{% url 'create' %}" class="nav-link px-2 text-white">Add</a></li>-->
-<!--          <li><a href="#" class="nav-link px-2 text-white">Import</a></li>-->
         <li><a href="#" class="nav-link px-2 text-white">Export</a></li>
       </ul>
 
@@ -72,7 +69,6 @@
 
 <!--Javascript-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-
 
 </body>
 </html>

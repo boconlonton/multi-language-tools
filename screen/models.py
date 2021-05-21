@@ -8,7 +8,7 @@ class Screen(models.Model):
     screen_code = models.CharField(max_length=255, unique=True)
     screen_name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    url = models.TextField()
+    url = models.TextField(blank=True, null=True)
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE)
     modified_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s_modified')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='%(class)s_created')

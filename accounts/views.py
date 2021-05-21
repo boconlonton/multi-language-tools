@@ -11,7 +11,7 @@ def login(request):
         )
         if user is not None:
             auth.login(request, user)
-            return redirect('home')
+            return redirect('vocab-home')
         else:
             return render(request, 'accounts/login.html',
                           {'error': 'username or password is incorrect'}
@@ -26,6 +26,6 @@ def logout(request):
     # and don't forget to logout.
     if request.method == 'POST':
         auth.logout(request)
-        return redirect('home')
+        return redirect('vocab-home')
     else:
         return render(request, "accounts/logout.html")

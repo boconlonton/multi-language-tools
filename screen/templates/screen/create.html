@@ -3,31 +3,35 @@
 {%block content%}
 <div class="container text-center">
   <div class="row">
-      <h3> ADD NEW VOCABULARY </h3>
+      <h3> ADD NEW SCREEN </h3>
     </div>
 </div>
 
 <div class="container">
-      <form method="POST" action="{% url 'create' %}">
+      <form method="POST" action="{% url 'screen-create' %}">
           {% csrf_token %}
       <div class="form-group">
-        <label for="keyInput">Key</label>
-        <input type="text" name="key" class="form-control" id="keyInput" placeholder="Key">
+        <label for="scrProj"><b>Project</b></label>
+        <input type="text" value="{{project.project_name}}" name="scrProj" class="form-control" id="scrProj" placeholder="Project" disabled>
       </div>
       <div class="form-group">
-        <label for="engDefinition">English</label>
-        <textarea class="form-control" name="eng" id="engDefinition" rows="3"></textarea>
+        <label for="scrCode"><b>Screen Code</b></label>
+        <input type="text" name="scrCode" class="form-control" id="scrCode" placeholder="Screen Code">
       </div>
       <div class="form-group">
-        <label for="vnDefinition">Vietnamese</label>
-        <textarea class="form-control" name="vn" id="vnDefinition" rows="3"></textarea>
+        <label for="scrName"><b>Screen Name</b></label>
+        <textarea class="form-control" name="scrName" id="scrName" placeholder="Screen Name" rows="3"></textarea>
       </div>
       <div class="form-group">
-        <label for="koreaDefinition">Korean</label>
-        <textarea class="form-control" name="korea" id="koreaDefinition" rows="3"></textarea>
+        <label for="scrDesc"><b>Description</b></label>
+        <textarea class="form-control" name="scrDesc" id="scrDesc" placeholder="Description" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="scrURL"><b>URL</b></label>
+        <textarea class="form-control" name="scrURL" id="scrURL" placeholder="URL" rows="3"></textarea>
       </div>
       <div class="form-group text-center mt-5">
-        <button class="btn btn-m btn-primary btn-block" type="submit">Add</button>
+        <button class="btn btn-m btn-primary btn-block" type="submit">Save</button>
       </div>
     </form>
 

@@ -8,29 +8,49 @@
 </div>
 
 <div class="container">
-      <form method="POST" action="{% url 'detail' vocab_id=vocab.id %}">
+        <div class="col-md-3 mb-3">
+            <form id="search" method="POST" action="{% url 'vocab-detail' vocab_id=vocab.id %}">
+              {% csrf_token %}
+              <input {% if search_key %} value="{{search_key}}" {%endif%} type="text" name="scrCodeSearch" class="col-3 form-control" placeholder="Search by screen code">
+            </form>
+        </div>
+        <div class="col-md-3 mb-3">
+            <form id="fScrCode" method="POST" action="{% url 'vocab-detail' vocab_id=vocab.id %}">
+                {% csrf_token %}
+                <select class="form-select form-select-sm mt-3 mb-3" name="scrCode">
+                    {% for screen in screen_search %}
+                  <option value="{{screen.id}}">{{screen.screen_code}}</option>
+                    {%endfor%}
+                </select>
+                <button type="submit" class="btn btn-sm btn-outline-primary">Add</button>
+            </form>
+        </div>
+
+      <form method="POST" action="{% url 'vocab-detail' vocab_id=vocab.id %}">
           {% csrf_token %}
+      <div class="form-group">
+          <label for="label">Screen</label>
+          <div id="label">
+            {% for screen in screens %}
+                <span class="badge bg-dark">{{screen.screen_code}}   <a href="{%url 'vocab-delete-screen' vocab.id screen.id %}"><span class="badge bg-secondary">x</span></a></span>
+            {%endfor%}
+          </div>
+      </div>
       <div class="form-group">
         <label for="keyInput">Key</label>
         <input type="text" value="{{vocab.vocab_key}}" name="key" class="form-control" id="keyInput" placeholder="Key">
       </div>
       <div class="form-group">
         <label for="engDefinition">English</label>
-        <textarea class="form-control" name="eng" id="engDefinition" rows="3">
-            {{vocab.english_definition}}
-        </textarea>
+        <textarea class="form-control" name="eng" id="engDefinition" rows="3">{{vocab.english_definition}}</textarea>
       </div>
       <div class="form-group">
         <label for="vnDefinition">Vietnamese</label>
-        <textarea class="form-control" name="vn" id="vnDefinition" rows="3">
-            {{vocab.vn_definition}}
-        </textarea>
+        <textarea class="form-control" name="vn" id="vnDefinition" rows="3">{{vocab.vn_definition}}</textarea>
       </div>
       <div class="form-group">
         <label for="koreaDefinition">Korean</label>
-        <textarea class="form-control" name="korea" id="koreaDefinition" rows="3">
-            {{vocab.korean_definition}}
-        </textarea>
+        <textarea class="form-control" name="korea" id="koreaDefinition" rows="3">{{vocab.korean_definition}}</textarea>
       </div>
       <div class="form-group text-center mt-5">
         <button class="btn btn-m btn-warning btn-block" type="submit">Save</button>

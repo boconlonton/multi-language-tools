@@ -21,7 +21,7 @@
         <td>{{vocab.vn_definition}}</td>
         <td>{{vocab.korean_definition}}</td>
         <td>
-          <a class="btn btn-warning me-2" href="{% url 'detail' vocab_id=vocab.id %}">Edit</a>
+          <a class="btn btn-warning me-2" href="{% url 'vocab-detail' vocab_id=vocab.id %}">Edit</a>
         </td>
       </tr>
     {%endfor%}

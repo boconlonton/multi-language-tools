@@ -3,11 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
 from .models import Screen
+from project.models import Project
 
 
 @login_required(login_url="/")
 def screen_home(request):
-    vocabs = Screen.objects.all()
+    vocabs = Screen.objects.all().order_by('-id')
     paginator = Paginator(vocabs, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -20,22 +21,22 @@ def screen_home(request):
 
 @login_required(login_url="/")
 def screen_create(request):
+    project = get_object_or_404(Project, project_name='pms')
     if request.method == 'POST':
-        key = request.POST.get('key')
-        eng = request.POST.get('eng')
-        vn = request.POST.get('vn')
-        korea = request.POST.get('korea')
-        Screen.objects.create(
-            vocab_key=key,
-            english_definition=eng if eng else "",
-            vn_definition=vn if vn else "",
-            korean_definition=korea if korea else "",
-            created_by=request.user,
-            modified_by=request.user
-        )
+        data = {
+            'screen_code': request.POST.get('scrCode').strip(),
+            'screen_name': request.POST.get('scrName').strip(),
+            'description': request.POST.get('scrDesc').strip(),
+            'url': request.POST.get('scrURL').strip(),
+            'project': project,
+            'modified_by': request.user,
+            'created_by': request.user
+        }
+        Screen.objects.create(**data)
     return render(
         request,
-        'screen/create.html'
+        'screen/create.html',
+        {'project': project}
     )
 
 
@@ -43,17 +44,14 @@ def screen_create(request):
 def screen_detail(request, screen_id):
     screen = get_object_or_404(Screen, pk=screen_id)
     if request.method == 'POST':
-        pass
-        # key = request.POST.get('key').strip()
-        # eng = request.POST.get('eng').strip()
-        # vn = request.POST.get('vn').strip()
-        # korea = request.POST.get('korea').strip()
-        # vocab.key = key
-        # vocab.english_definition = eng
-        # vocab.vn_definition = vn
-        # vocab.korean_definition = korea
-        # vocab.save()
-        # vocab.refresh_from_db()
+        screen.screen_code = request.data.get('scrCode').strip()
+        screen.screen_name = request.data.get('scrName').strip()
+        screen.description = request.data.get('scrDesc').strip()
+        screen.url = request.data.get('scrURL').strip()
+        screen.modified_by = request.user
+        screen.project = get_object_or_404(Project, pk=1)
+        screen.save()
+        screen.refresh_from_db()
     return render(
         request,
         'screen/detail.html',
