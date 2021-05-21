@@ -1,0 +1,49 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="container mt-5 text-center">
+    <div class="row">
+        <div class="col">
+            <form id="search" method="POST" action="#">
+              {% csrf_token %}
+              <input {% if search_key %} value="{{search_key}}" {%endif%} type="text" name="scrCodeSearch" class="col form-control" placeholder="Search by screen code">
+                <button type="submit" class="btn btn btn-outline-success mt-3">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% if page_obj %}
+<div class="container mt-3">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Key</th>
+        <th scope="col">English</th>
+        <th scope="col">Vietnamese</th>
+        <th scope="col">Korean</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for vocab in page_obj %}
+      <tr>
+        <th scope="row">{{vocab.vocab_key}}</th>
+        <td>{{vocab.english_definition}}</td>
+        <td>{{vocab.vn_definition}}</td>
+        <td>{{vocab.korean_definition}}</td>
+      </tr>
+    {%endfor%}
+    </tbody>
+  </table>
+</div>
+<div class="containter mt-3 text-center">
+    <div class="row">
+        <div class="col">
+            {% for k, v in languages%}
+            <a href="{% url 'vocab-export' k search_key  %}" class="link-primary">{{v}}</a>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{%endif%}
+
+{%endblock%}

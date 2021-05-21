@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
@@ -9,7 +10,7 @@ from screen.models import Screen
 @login_required(login_url="/")
 def vocab_home(request):
     vocabs = Vocabulary.objects.all().order_by('-id')
-    paginator = Paginator(vocabs, 25)
+    paginator = Paginator(vocabs, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(
@@ -67,8 +68,9 @@ def vocab_detail(request, vocab_id):
         elif request.POST.get('scrCode'):
             vocab = Vocabulary.objects.get(pk=vocab_id)
             scrn_code = request.POST.get('scrCode')
-            if scrn_code not in vocab.screen.all():
-                vocab.screen.add()
+            screen = Screen.objects.get(pk=scrn_code)
+            if screen not in vocab.screen.all():
+                vocab.screen.add(screen)
                 vocab.save()
         elif request.POST.get('key'):
             key = request.POST.get('key').strip()
@@ -101,3 +103,53 @@ def vocab_delete_screen(request, vocab_id, screen_id):
         vocab.screen.remove(screen)
         vocab.save()
     return redirect('vocab-detail', vocab_id=vocab_id)
+
+
+@login_required(login_url='/')
+def vocab_export_home(request):
+    page_obj = None
+    search_key = None
+    languages = {
+        'en': 'English',
+        'vi': 'Vietnam',
+        'kr': 'Korean'
+    }
+    if request.method == 'POST':
+        search_key = request.POST.get('scrCodeSearch')
+        screen = Screen.objects.get(screen_code=search_key)
+        vocabs = Vocabulary.objects.filter(
+            screen__id=screen.id
+        ).order_by('id')
+        paginator = Paginator(vocabs, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+    return render(
+        request,
+        'vocabulary/export.html',
+        {
+            'page_obj': page_obj,
+            'search_key': search_key,
+            'languages': languages.items(),
+        }
+    )
+
+
+@login_required(login_url='/')
+def vocab_export(request, language, screen_code):
+    language_dict = {
+        'en': lambda x: getattr(x, "english_definition"),
+        'vi': lambda x: getattr(x, "vn_definition"),
+        'kr': lambda x: getattr(x, "korean_definition")
+    }
+    screen = Screen.objects.get(screen_code=screen_code)
+    vocabs = Vocabulary.objects.filter(
+        screen__id=screen.id
+    ).order_by('id')
+    response = {}
+    for vocab in vocabs:
+        response[vocab.vocab_key] = language_dict[language](vocab)
+    return JsonResponse(
+        response,
+        safe=False,
+        json_dumps_params={'ensure_ascii': False}
+    )
