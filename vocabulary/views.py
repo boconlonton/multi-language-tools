@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
@@ -44,6 +44,7 @@ def vocab_create(request):
                 modified_by=request.user
             )
             vocab.screen.add(request.POST.get('scrCode'))
+            return redirect('vocab_home')
     return render(
         request,
         'vocabulary/create.html',
@@ -116,7 +117,10 @@ def vocab_export_home(request):
     }
     if request.method == 'POST':
         search_key = request.POST.get('scrCodeSearch')
-        screen = Screen.objects.get(screen_code=search_key)
+        try:
+            screen = Screen.objects.get(screen_code=search_key)
+        except Screen.DoesNotExist:
+            return render(request,'404.html')
         vocabs = Vocabulary.objects.filter(
             screen__id=screen.id
         ).order_by('id')
