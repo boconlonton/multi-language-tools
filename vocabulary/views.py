@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
@@ -153,8 +153,10 @@ def vocab_export(request, language, screen_code):
     response = {}
     for vocab in vocabs:
         response[vocab.vocab_key] = language_dict[language](vocab)
-    return JsonResponse(
+    res = JsonResponse(
         response,
         safe=False,
         json_dumps_params={'ensure_ascii': False}
     )
+    res['Content-Disposition'] = f'attachment; filename={screen.screen_code}.json'
+    return res
