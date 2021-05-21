@@ -44,7 +44,7 @@ def vocab_create(request):
                 modified_by=request.user
             )
             vocab.screen.add(request.POST.get('scrCode'))
-            return redirect('vocab_home')
+            return redirect('vocab-home')
     return render(
         request,
         'vocabulary/create.html',
