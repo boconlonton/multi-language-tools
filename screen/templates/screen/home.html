@@ -8,7 +8,7 @@
         <th scope="col">No</th>
         <th scope="col">Screen Code</th>
         <th scope="col">Screen Name</th>
-        <th scope="col">Project</th>
+        <th scope="col"></th>
       </tr>
     </thead>
 
@@ -31,15 +31,27 @@
   <ul class="pagination justify-content-center">
     {% if page_obj.has_previous %}
     <li class="page-item">
-      <a class="page-link" href="/screen/?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+      <a class="page-link" href="/screen/?page={{ page_obj.previous_page_number }}" tabindex="-1">&laquo;</a>
     </li>
     {% endif %}
-    <li class="page-item disabled"><a class="page-link" href="#">
-      {{ page_obj.number }}
-    </a></li>
+    {% for i in page_range %}
+      {% if page_obj.number == i %}
+    <li class="page-item active">
+      <a class="page-link">
+        {{ page_obj.number }}
+      </a>
+    </li>
+      {%else%}
+      <li class="page-item">
+        <a class="page-link" href="/screen/?page={{ i }}">
+          {{i}}
+        </a>
+      </li>
+      {%endif%}
+    {%endfor%}
     {% if page_obj.has_next %}
     <li class="page-item">
-      <a class="page-link" href="/screen/?page={{ page_obj.next_page_number }}">Next</a>
+      <a class="page-link" href="/screen/?page={{ page_obj.next_page_number }}">&raquo;</a>
     </li>
     {% endif %}
   </ul>

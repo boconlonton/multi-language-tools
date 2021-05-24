@@ -41,8 +41,8 @@
         <li><a href="{% url 'vocab-export-home' %}" class="nav-link px-2 text-white">Export</a></li>
       </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-        <input type="search" class="form-control form-control-dark" placeholder="Search...">
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="GET">
+        <input type="search" {% if search_key %} value="{{search_key}}"  {%endif%} name="search" class="form-control form-control-dark" placeholder="Search...">
       </form>
 
       <div class="text-end">

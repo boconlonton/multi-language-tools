@@ -8,14 +8,37 @@ from project.models import Project
 
 @login_required(login_url="/accounts/login")
 def screen_home(request):
-    vocabs = Screen.objects.all().order_by('-id')
-    paginator = Paginator(vocabs, 10)
-    page_number = request.GET.get('page')
+    search_key = None
+    if request.GET.get('search'):
+        search_key = request.GET.get('search').strip()
+        screens = Screen.objects.filter(screen_code__contains=search_key)\
+            .order_by('-id')
+    else:
+        screens = Screen.objects.all().order_by('-id')
+    paginator = Paginator(screens, 5)
+    if request.GET.get('page'):
+        page_number = int(request.GET.get('page')) if int(request.GET.get('page')) > 0 else 1
+    else:
+        page_number = 1
     page_obj = paginator.get_page(page_number)
+    if page_number - 1 < 1:
+        min_range = 1
+    else:
+        min_range = page_number - 1
+    if page_number + 5 > paginator.num_pages:
+        max_range = paginator.num_pages
+    else:
+        max_range = page_number + 5
+
+    page_range = range(min_range, max_range+1)
     return render(
         request,
         'screen/home.html',
-        {'page_obj': page_obj}
+        {
+            'page_obj': page_obj,
+            'search_key': search_key,
+            'page_range': page_range
+        }
     )
 
 

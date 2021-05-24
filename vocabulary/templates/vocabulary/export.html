@@ -26,7 +26,7 @@
     <tbody>
     {% for vocab in page_obj %}
       <tr>
-        <th scope="row">{{vocab.vocab_key}}</th>
+        <th scope="row"><a href="{% url 'vocab-detail' vocab.id %}" class="link-dark">{{vocab.vocab_key}}</a></th>
         <td>{{vocab.english_definition}}</td>
         <td>{{vocab.vn_definition}}</td>
         <td>{{vocab.korean_definition}}</td>

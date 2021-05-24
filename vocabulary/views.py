@@ -9,14 +9,38 @@ from screen.models import Screen
 
 @login_required(login_url="/accounts/login")
 def vocab_home(request):
-    vocabs = Vocabulary.objects.all().order_by('-id')
-    paginator = Paginator(vocabs, 10)
-    page_number = request.GET.get('page')
+    search_key = None
+    if request.GET.get('search'):
+        search_key = request.GET.get('search').strip()
+        vocabs = Vocabulary.objects.filter(vocab_key__contains=search_key)\
+            .order_by('-id')
+    else:
+        vocabs = Vocabulary.objects.all().order_by('-id')
+    paginator = Paginator(vocabs, 5)
+    if request.GET.get('page'):
+        page_number = int(request.GET.get('page')) if int(request.GET.get('page')) > 0 else 1
+    else:
+        page_number = 1
     page_obj = paginator.get_page(page_number)
+    if page_number-1 < 1:
+        min_range = 1
+    else:
+        min_range = page_number-1
+    if page_number+5 > paginator.num_pages:
+        max_range = paginator.num_pages
+    else:
+        max_range = page_number+5
+
+    page_range = range(min_range, max_range+1)
     return render(
         request,
         'vocabulary/home.html',
-        {'page_obj': page_obj}
+        {
+            'page_obj': page_obj,
+            'paginator': paginator,
+            'page_range': page_range,
+            'search_key': search_key
+        }
     )
 
 
