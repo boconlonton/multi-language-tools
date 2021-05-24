@@ -12,7 +12,7 @@ def vocab_home(request):
     search_key = None
     if request.GET.get('search'):
         search_key = request.GET.get('search').strip()
-        vocabs = Vocabulary.objects.filter(vocab_key__contains=search_key)\
+        vocabs = Vocabulary.objects.filter(vocab_key__icontains=search_key)\
             .order_by('-id')
     else:
         vocabs = Vocabulary.objects.all().order_by('-id')

@@ -11,7 +11,7 @@ def screen_home(request):
     search_key = None
     if request.GET.get('search'):
         search_key = request.GET.get('search').strip()
-        screens = Screen.objects.filter(screen_code__contains=search_key)\
+        screens = Screen.objects.filter(screen_code__icontains=search_key)\
             .order_by('-id')
     else:
         screens = Screen.objects.all().order_by('-id')
