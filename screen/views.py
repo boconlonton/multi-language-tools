@@ -44,10 +44,10 @@ def screen_create(request):
 def screen_detail(request, screen_id):
     screen = get_object_or_404(Screen, pk=screen_id)
     if request.method == 'POST':
-        screen.screen_code = request.data.get('scrCode').strip()
-        screen.screen_name = request.data.get('scrName').strip()
-        screen.description = request.data.get('scrDesc').strip()
-        screen.url = request.data.get('scrURL').strip()
+        screen.screen_code = request.POST.get('scrCode').strip()
+        screen.screen_name = request.POST.get('scrName').strip()
+        screen.description = request.POST.get('scrDesc').strip()
+        screen.url = request.POST.get('scrURL').strip()
         screen.modified_by = request.user
         screen.project = get_object_or_404(Project, pk=1)
         screen.save()
