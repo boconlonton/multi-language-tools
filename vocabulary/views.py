@@ -119,7 +119,7 @@ def vocab_export_home(request):
     if request.method == 'POST':
         search_key = request.POST.get('scrCodeSearch')
         try:
-            screen = Screen.objects.get(screen_code=search_key)
+            screen = Screen.objects.get(screen_code=search_key.strip())
         except Screen.DoesNotExist:
             return render(request,'404.html')
         vocabs = Vocabulary.objects.filter(
