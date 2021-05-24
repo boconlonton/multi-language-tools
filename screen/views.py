@@ -9,7 +9,7 @@ from project.models import Project
 @login_required(login_url="/accounts/login")
 def screen_home(request):
     vocabs = Screen.objects.all().order_by('-id')
-    paginator = Paginator(vocabs, 25)
+    paginator = Paginator(vocabs, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(
