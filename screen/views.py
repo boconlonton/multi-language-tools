@@ -6,7 +6,7 @@ from .models import Screen
 from project.models import Project
 
 
-@login_required(login_url="/")
+@login_required(login_url="/accounts/login")
 def screen_home(request):
     vocabs = Screen.objects.all().order_by('-id')
     paginator = Paginator(vocabs, 25)
@@ -19,7 +19,7 @@ def screen_home(request):
     )
 
 
-@login_required(login_url="/")
+@login_required(login_url="/accounts/login")
 def screen_create(request):
     project = get_object_or_404(Project, project_name='pms')
     if request.method == 'POST':
@@ -40,7 +40,7 @@ def screen_create(request):
     )
 
 
-@login_required(login_url='/')
+@login_required(login_url="/accounts/login")
 def screen_detail(request, screen_id):
     screen = get_object_or_404(Screen, pk=screen_id)
     if request.method == 'POST':

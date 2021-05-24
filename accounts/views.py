@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -21,11 +22,12 @@ def login(request):
         return render(request, "accounts/login.html")
 
 
+@login_required(login_url="/accounts/login")
 def logout(request):
     # TODO: Need to route to hompage
     # and don't forget to logout.
     if request.method == 'POST':
         auth.logout(request)
-        return redirect('vocab-home')
+        return redirect('login')
     else:
         return render(request, "accounts/logout.html")

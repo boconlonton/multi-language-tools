@@ -7,7 +7,7 @@ from .models import Vocabulary
 from screen.models import Screen
 
 
-@login_required(login_url="/")
+@login_required(login_url="/accounts/login")
 def vocab_home(request):
     vocabs = Vocabulary.objects.all().order_by('-id')
     paginator = Paginator(vocabs, 10)
@@ -20,7 +20,7 @@ def vocab_home(request):
     )
 
 
-@login_required(login_url="/")
+@login_required(login_url="/accounts/login")
 def vocab_create(request):
     screens = Screen.objects.all().order_by('-id')
     search_key = None
@@ -56,7 +56,7 @@ def vocab_create(request):
     )
 
 
-@login_required(login_url='/')
+@login_required(login_url="/accounts/login")
 def vocab_detail(request, vocab_id):
     vocab = get_object_or_404(Vocabulary, pk=vocab_id)
     screens = vocab.screen.all()
@@ -97,7 +97,7 @@ def vocab_detail(request, vocab_id):
     )
 
 
-@login_required(login_url='/')
+@login_required(login_url="/accounts/login")
 def vocab_delete_screen(request, vocab_id, screen_id):
     vocab = Vocabulary.objects.get(pk=vocab_id)
     screen = Screen.objects.get(pk=screen_id)
@@ -107,7 +107,7 @@ def vocab_delete_screen(request, vocab_id, screen_id):
     return redirect('vocab-detail', vocab_id=vocab_id)
 
 
-@login_required(login_url='/')
+@login_required(login_url="/accounts/login")
 def vocab_export_home(request):
     page_obj = None
     search_key = None
@@ -139,7 +139,7 @@ def vocab_export_home(request):
     )
 
 
-@login_required(login_url='/')
+@login_required(login_url="/accounts/login")
 def vocab_export(request, language, screen_code):
     language_dict = {
         'en': lambda x: getattr(x, "english_definition"),
