@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container position-absolute top-50 start-50 translate-middle">
+    <div class="row justify-content-center">
+        <div class="col-sm-8 text-center">
+            <h3>Import vocabulary from JSON file</h3>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-4 text-center">
+            <form enctype="multipart/form-data" method="POST" action="{% url 'vocab-import' %}">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <input type="file" name="json" class="form-control" id="inputGroupFile01">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

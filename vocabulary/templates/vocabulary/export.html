@@ -11,6 +11,17 @@
         </div>
     </div>
 </div>
+{% if screens %}
+<div class="container mt-3">
+    <div class="row">
+        {% for screen in screens %}
+        <div class="col-md-2">
+            <a href="{% url 'vocab-export-with-code' screen_code=screen.screen_code %}" class="link-primary">{{screen.screen_code}}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 {% if page_obj %}
 <div class="container mt-3">
   <table class="table">
