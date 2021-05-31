@@ -58,7 +58,7 @@
                 </span>
 
               {% if page_obj.has_next %}
-                  <a href="{% url 'vocab-export-with-code' search_key%}?{{search_key}}?page={{ page_obj.next_page_number }}">&raquo;</a>
+                  <a href="{% url 'vocab-export-with-code' search_key%}?page={{ page_obj.next_page_number }}">&raquo;</a>
               {% endif %}
             </span>
             </div>
