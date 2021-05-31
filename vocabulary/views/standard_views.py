@@ -15,33 +15,18 @@ def vocab_home(request):
             .order_by('-id')
     else:
         vocabs = Vocabulary.objects.all().order_by('-id')
-    paginator = Paginator(vocabs, 10)
+    paginator = Paginator(vocabs, 7)
     if request.GET.get('page'):
         page_number = int(request.GET.get('page')) if int(request.GET.get('page')) > 0 else 1
     else:
         page_number = 1
     page_obj = paginator.get_page(page_number)
-    last_page = paginator.num_pages
-    if page_number - 2 < 1:
-        min_range = 1
-    elif page_number == last_page:
-        min_range = last_page - 3 if last_page - 3 > 0 else 1
-    else:
-        min_range = page_number - 2
-    if page_number + 1 > last_page:
-        max_range = last_page
-    elif page_number == last_page:
-        max_range = last_page
-    else:
-        max_range = page_number + 1
-    page_range = range(min_range, max_range + 1)
     return render(
         request,
         'vocabulary/home.html',
         {
             'page_obj': page_obj,
             'paginator': paginator,
-            'page_range': page_range,
             'search_key': search_key
         }
     )

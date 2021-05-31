@@ -72,13 +72,13 @@ def vocab_export_home_with_code(request, screen_code):
                 {
                     'screens': screens,
                     'search_key': search_key
-                 }
+                }
             )
         vocabs = Vocabulary.objects.filter(
             screen__id=screen.id
         ).order_by('id')
         paginator = Paginator(vocabs, 10)
-        page_number = request.GET.get('page')
+        page_number = request.GET.get('page') or 1
         page_obj = paginator.get_page(page_number)
     return render(
         request,
