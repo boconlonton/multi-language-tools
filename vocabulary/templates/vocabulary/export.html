@@ -3,7 +3,7 @@
 <div class="container mt-5 text-center">
     <div class="row">
         <div class="col">
-            <form id="search" method="POST" action="#">
+            <form id="search" method="POST" action="">
               {% csrf_token %}
               <input {% if search_key %} value="{{search_key}}" {%endif%} type="text" name="scrCodeSearch" class="col form-control" placeholder="Search by screen code">
                 <button type="submit" class="btn btn btn-outline-success mt-3">Search</button>
@@ -50,8 +50,7 @@
         <div class="pagination justify-content-center">
             <span class="step-links">
               {% if page_obj.has_previous %}
-                  <a href="?page=1">&laquo; first</a>
-                  <a href="?page={{ movies.previous_page_number }}">previous</a>
+                  <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
               {% endif %}
 
                 <span class="current">
@@ -59,8 +58,7 @@
                 </span>
 
               {% if page_obj.has_next %}
-                  <a href="?page={{ page_obj.next_page_number }}">next</a>
-                  <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                  <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
               {% endif %}
             </span>
             </div>
