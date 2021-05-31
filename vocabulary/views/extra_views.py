@@ -25,7 +25,9 @@ def vocab_export_home(request):
         try:
             screen = Screen.objects.get(screen_code=search_key.strip())
         except Screen.DoesNotExist:
-            screens = Screen.objects.filter(screen_code__icontains=search_key.strip())
+            screens = Screen.objects.filter(
+                screen_code__icontains=search_key.strip()
+            )
             return render(
                 request,
                 'vocabulary/export.html',
@@ -65,7 +67,9 @@ def vocab_export_home_with_code(request, screen_code):
         try:
             screen = Screen.objects.get(screen_code=search_key.strip())
         except Screen.DoesNotExist:
-            screens = Screen.objects.filter(screen_code__icontains=search_key.strip())
+            screens = Screen.objects.filter(
+                screen_code__icontains=search_key.strip()
+            )
             return render(
                 request,
                 'vocabulary/export.html',
@@ -116,28 +120,40 @@ def vocab_export(request, language, screen_code):
 
 @login_required(login_url='/accounts/login')
 def vocab_import(request):
+    bad_vocabs = []
     if request.method == 'POST':
-        structure = {
-            "screen_name": {
-                "key": {
-                    "en": "",
-                    "vi": ""
-                }
-            }
-        }
         data = request.FILES.get('json').read()
         data_parse = json.loads(data)
-        list_screens = data_parse.keys()
-        for screen_code in list_screens:
+        # list_screens = data_parse.keys()
+        print(data_parse)
+        for screen_code in data_parse:
             screen = get_or_none(Screen, screen_code=screen_code)
             if not screen:
                 screen = create_screen_from_code_only(
                     screen_code=screen_code,
                     user=request.user
                 )
-            list_words = list_screens[screen_code].keys()
-            # for word in list_words:
+            list_words = data_parse[screen_code]
+            for word in list_words:
+                vocab = get_or_none(Vocabulary, vocab_key=word)
+                if vocab:
+                    if screen not in vocab.screen.all():
+                        vocab.screen.add(screen)
+                    else:
+                        bad_vocabs.append(vocab)
+                else:
+                    obj = Vocabulary.objects.create(
+                        vocab_key=word,
+                        english_definition=list_words[word].get('en', ''),
+                        vn_definition=list_words[word].get('vn', ''),
+                        korean_definition=list_words[word].get('kr', ''),
+                        created_by=request.user,
+                        modified_by=request.user
+                    )
+                    obj.screen.add(screen)
+                    obj.save()
     return render(
         request,
         'vocabulary/import.html',
+        {'bad_vocabs': bad_vocabs}
     )

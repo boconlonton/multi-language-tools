@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% if not bad_vocabs %}
 <div class="container position-absolute top-50 start-50 translate-middle">
     <div class="row justify-content-center">
         <div class="col-sm-8 text-center">
@@ -18,4 +19,25 @@
         </div>
     </div>
 </div>
+{% endif %}
+{% if bad_vocabs %}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col text-center">
+            <h3> Bad vocabularies </h3>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        {% for word in bad_vocabs %}
+        <div class="col-md-4">
+            <a href="{% url 'vocab-export-with-code' screen_code=screen.screen_code %}" class="link-primary">{{word}}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endif %}
 {% endblock %}
