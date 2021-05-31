@@ -50,7 +50,7 @@
         <div class="pagination justify-content-center">
             <span class="step-links">
               {% if page_obj.has_previous %}
-                  <a href="{{search_key}}?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                  <a href="{% url 'vocab-export-with-code' search_key%}?page={{ page_obj.previous_page_number }}">&laquo;</a>
               {% endif %}
 
                 <span class="current">
@@ -58,7 +58,7 @@
                 </span>
 
               {% if page_obj.has_next %}
-                  <a href="{{search_key}}?page={{ page_obj.next_page_number }}">&raquo;</a>
+                  <a href="{% url 'vocab-export-with-code' search_key%}?{{search_key}}?page={{ page_obj.next_page_number }}">&raquo;</a>
               {% endif %}
             </span>
             </div>
